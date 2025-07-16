@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>AgriSage</title>
+		<!-- 引入 ECharts -->
+		<script src="static/js/echarts.min.js"></script>
+		<!-- 引入中国地图数据 -->
+		<script src="static/js/china.js"></script>
+		<link href="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
+		<script src="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
+		<link rel="stylesheet" href="static/css/styles.css">
+
+
+
+	</head>
+	<style>
+		body {
+			background: url('static/img/bg7.jpg') no-repeat center center fixed;
+			background-size: cover;
+			background-color: #39d87e;
+			/* 备用背景色 */
+		}
+	</style>
+	<body>
+
+		<!-- 退出按钮 -->
+		<a href="javascript:void(0)" onclick="logout()" id="logout-button" class="logout-btn" title="退出登录">
+			<svg viewBox="0 0 1024 1024" width="24" height="24" fill="#fff">
+				<path
+					d="M946.076751 472.579151c0 14.176886-5.739126 27.002092-15.030745 36.318917l0 0-102.596923 102.549662 0 0c-9.294769 9.316825-22.119975 15.027594-36.273231 15.027594-28.325415 0-51.299249-22.943902-51.299249-51.247262 0-14.180037 5.735975-27.003668 15.030745-36.322068l0 0 15.027594-14.980332-132.655262 0c-28.328566 0-51.299249-22.992738-51.299249-51.348086 0-28.304935 22.969108-51.300825 51.299249-51.300825l132.655262 0-15.027594-14.977182 0 0c-9.294769-9.3184-15.030745-22.143606-15.030745-36.322068 0-28.30336 22.972258-51.299249 51.299249-51.299249 14.153255 0 26.978462 5.761182 36.273231 15.078006l0 0 102.596923 102.549662 0 0C940.337625 445.625895 946.076751 458.451102 946.076751 472.579151zM792.174277 216.131742 689.577354 216.131742l-102.596923 0L361.794954 216.131742l97.662818 58.61376-0.448985 0.701046c14.901563 9.017502 25.371569 24.598055 25.371569 43.23328l0 410.444406 51.299249 0 153.897748 0 102.596923 0c28.331717 0 51.300825 22.943902 51.300825 51.247262 0 28.356923-22.969108 51.351237-51.300825 51.351237L535.679606 831.722732l-51.299249 0 0 51.299249c0 28.304935-22.967532 51.247262-51.299249 51.247262-9.693342 0-18.211446-3.405982-25.951311-8.015557l-0.45056 0.751458L150.182991 773.05856l0.452135-0.701046 0 0c-6.889157-4.159015-12.500677-9.718548-16.782572-16.528935-0.625428-0.953108-1.277637-1.754978-1.829022-2.756923-3.93216-7.213686-6.736345-15.129994-6.736345-23.945846L125.287188 164.78208c0-21.240911 12.924455-39.425575 31.335975-47.241058 6.136123-2.604111 12.874043-4.058191 19.963274-4.058191l0 0 410.395569 0 205.193846 0c28.331717 0 51.300825 22.994314 51.300825 51.299249C843.476677 193.135852 820.507569 216.131742 792.174277 216.131742z" />
+			</svg>
+		</a>
+
+					
+
+
+
+		<div class="left-panel-group">
+			<!-- 实时时间显示 -->
+			<div class="showtime" id="showtime"></div>
+
+			<!-- 今日天气模块1 -->
+			<div class="weather-panel1">
+				<div class="panel-title">实时温、湿度信息</div>
+				<div class="stats-row">
+					<div>
+						<div class="desc">今日湿度</div>
+						<div class="today-value">
+							<div class="value" id="todayHumidity"></div>
+							<div class="unit">%</div>
+						</div>
+					</div>
+					<div>
+						<div class="desc">今日温度</div>
+						<div class="today-value">
+							<div class="value" id="todayTemp"></div>
+							<div class="unit">℃</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="humidity-panel">
+				<div class="panel-title">湿度监测</div>
+				<!-- <div class="desc">今日湿度</div>
+        <div class="today-value">
+          <div class="value" id="todayHumidity">--</div>
+          <div class="unit">%</div>
+        </div> -->
+				<div class="desc">过去七天湿度</div>
+				<div class="chart-container" id="humidityChart"></div>
+			</div>
+			<div class="temp-panel">
+				<div class="panel-title">温度监测</div>
+				<!-- <div class="desc">今日温度</div>
+        <div class="today-value">
+          <div class="value" id="todayTemp">--</div>
+          <div class="unit">℃</div>
+        </div> -->
+				<div class="desc">过去七天温度</div>
+				<div class="chart-container" id="tempChart"></div>
+			</div>
+			<div class="sun-panel">
+				<div class="panel-title">光照监测</div>
+				<!-- <div class="desc">今日光照</div>
+       <div class="today-value">
+         <div class="value" id="todaySun">--</div>
+         <div class="unit">lux</div>
+       </div> -->
+				<div class="desc">过去七天光照</div>
+				<div class="chart-container" id="sunChart"></div>
+			</div>
+
+
+		</div>
+
+
+
+
+		<div class="right-panel-group">
+			<!-- 今日天气模块2 -->
+			<div class="weather-panel2">
+				<div class="panel-title">实时风向、风速信息</div>
+				<div class="stats-row">
+					<div>
+						<div class="desc">风速</div>
+						<div class="today-value">
+							<div class="value" id="todayWindSpeed"></div>
+							<div class="unit">km/h</div>
+						</div>
+					</div>
+					<div>
+						<div class="desc">风向</div>
+						<div class="today-value">
+							<div class="value" id="todayWindDirection"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="soil-panel">
+				<div class="panel-title">三层土壤湿度</div>
+				<div class="desc">过去七天各层土壤湿度</div>
+				<div class="chart-container" id="soilChart" style="height:180px;"></div>
+			</div>
+
+			<!-- 产量模块 -->
+			<div class="yield-panel">
+				<div class="panel-title">产量统计</div>
+				<div class="desc">各农产品产量对比</div>
+				<div class="chart-container" id="yieldChart" style="height:180px;"></div>
+			</div>
+
+			<!-- 收成天数模块 -->
+			<div class="harvest-panel">
+				<div class="panel-title">收成天数</div>
+				<div class="desc">各农作物收成周期</div>
+				<div class="chart-container" id="harvestChart" style="height:180px;"></div>
+			</div>
+
+
+		</div>
+
+		<div id="main" style="width: 900px;height:600px;margin:0 auto;"></div>
+
+		<!-- 农产品价格和销量展示 -->
+		<div class="product-stats">
+			<div class="stats-title">农产品价格与销量</div>
+			<div class="stats-grid" id="statsGrid">
+				<!-- 动态生成的内容 -->
+			</div>
+		</div>
+
+		<script src="static/js/front.js"></script>
+
+
+	</body>
+</html>
